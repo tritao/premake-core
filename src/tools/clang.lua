@@ -169,10 +169,10 @@
 --    An array of symbols with the appropriate flag decorations.
 --
 
-	function clang.getincludedirs(cfg, dirs, sysdirs)
+	function clang.getincludedirs(cfg, dirs, sysdirs, isabsolute)
 
 		-- Just pass through to GCC for now
-		local flags = gcc.getincludedirs(cfg, dirs, sysdirs)
+		local flags = gcc.getincludedirs(cfg, dirs, sysdirs, isabsolute)
 		return flags
 
 	end
@@ -250,6 +250,13 @@
 
 	end
 
+--
+-- Return the extension for object files
+--
+
+	function clang.getObjectFileExtension()
+		return gcc.getObjectFileExtension()
+	end
 
 --
 -- Build a list of libraries to be linked for a particular project
