@@ -58,3 +58,28 @@
   DEPENDS = bin/Debug/MyProject2.dll bin/Debug/MyProject3.dll
 		]]
 	end
+
+
+---
+--- References for Roslyn csc should end with .dll suffix.
+---
+
+function suite.doesReferenceDllFiles()
+	links { "MyProject2", "MyProject3" }
+
+	test.createproject(wks)
+	kind "SharedLib"
+	language "C#"
+
+	test.createproject(wks)
+	kind "SharedLib"
+	language "C#"
+
+	prepare ()
+	test.capture [[
+  DEPENDS = bin/Debug/MyProject2.dll bin/Debug/MyProject3.dll
+  REFERENCES = /r:bin/Debug/MyProject2.dll /r:bin/Debug/MyProject3.dll
+	]]
+end
+
+

@@ -265,7 +265,7 @@
 
 
 	function make.csLinkCmd(cfg, toolset)
-		local deps = p.esc(config.getlinks(cfg, "dependencies", "fullpath"))
+		local deps = p.esc(toolset.getlinks(cfg, "dependencies"))
 		_p('  DEPENDS =%s', make.list(deps))
 		_p('  REFERENCES = %s', table.implode(deps, "/r:", "", " "))
 	end
@@ -280,7 +280,7 @@
 		local libdirs = table.implode(p.esc(cfg.libdirs), "/lib:", "", " ")
 		_p('FLAGS += %s', table.concat(table.join(kindflag, libdirs), " "))
 
-		local refs = p.esc(config.getlinks(cfg, "system", "fullpath"))
+		local refs = p.esc(toolset.getlinks(cfg, "system"))
 		_p('REFERENCES += %s', table.implode(refs, "/r:", "", " "))
 		_p('')
 	end

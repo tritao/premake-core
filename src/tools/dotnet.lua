@@ -255,6 +255,38 @@
 	end
 
 
+--
+-- Retrieves the project references, based on the
+-- provided configuration and the operating environment.
+--
+-- @param cfg
+--    The configuration to query.
+-- @param kind
+--    The type of links to retrieve; one of:
+--      siblings     - linkable sibling projects
+--      system       - system (non-sibling) libraries
+--      dependencies - all sibling dependencies, including non-linkable
+--      all          - return everything
+-- @return
+--    An array of project references.
+--
+
+	function dotnet.getlinks(cfg, kind)
+		local compiler = dotnet.gettoolname(cfg, "csc")
+		local refs = {}
+
+		-- Scan the list of linked references. If we are using the csc
+		-- toolset, make sure that references end up in .dll, else the
+		-- compiler will not be able to find them.
+		for _, ref in ipairs(config.getlinks(cfg, kind, "fullpath")) do
+			if compiler == "csc" and not string.endswith(ref, ".dll") then
+				ref = ref .. ".dll"
+			end
+			table.insert(refs, ref)
+		end
+
+		return refs
+	end
 
 --
 -- Returns a list of compiler flags, based on the supplied configuration.
